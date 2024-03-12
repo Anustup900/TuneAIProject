@@ -1,0 +1,2048 @@
+Issue Title,Description,Created At,Comments
+[xla:gpu] Extend collective-permute decomposer to also make decision for,"[xla:gpu] Extend collective-permute decomposer to also make decision for
+Send-Recv pipeling and record the decision with frontend attributes.
+
+We first use a simple heuristics to decide on the decomposition of which
+CollectivePermute operations will be pipelined. We will only pipeline
+CollectivePermute that sends loop input data, and pick the first
+pipelineable CollectivePermute for pipelining. Then, if there is another
+pipelineable CollectivePermute that forms a cycle with the to-be-pipelined
+CollectivePermute, we will pipeline both CollectivePermute. Otherwise, we will
+only pipeline one CollectivePermute.
+
+Then, when we decompose CollectivePermute operations, we add a frontend
+attribute to the Send/Recv operation to represent the pipelining decision.
+
+Add tests.
+",2024-03-11T05:16:45Z,0
+Microoptmize the conditions in IsArrayType.,"Microoptmize the conditions in IsArrayType.
+",2024-03-11T04:30:26Z,0
+Do not call Shape::is_static when unnecessary.,"Do not call Shape::is_static when unnecessary.
+",2024-03-11T04:26:26Z,0
+Eliminate unnecessary copies for HloSharding.,"Eliminate unnecessary copies for HloSharding.
+",2024-03-11T04:25:26Z,0
+Add Dynamic Range Quantized op support for `op_stat_pass.cc`.,"Add Dynamic Range Quantized op support for `op_stat_pass.cc`.
+
+- Cleanup header imports as well.
+",2024-03-11T03:12:47Z,0
+Add check conditions in `quantization_driver_test.cc`.,"Add check conditions in `quantization_driver_test.cc`.
+
+- Adds more rigorous checks for desired states in intermediate testing stages.
+- Renames and rewrites `IsEmpty` and `HasQuantParams` for clarity.
+",2024-03-11T02:17:30Z,0
+2.16.1 libtensorflow binary,"### Issue type
+
+Support
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+2.16.1
+
+### Custom code
+
+No
+
+### OS platform and distribution
+
+Linux
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+_No response_
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+Yes
+
+### Current behavior?
+
+Hi! 
+
+Tensorflow 2.16.1 has been [released](https://github.com/tensorflow/tensorflow/releases/tag/v2.16.1) recently. However, the latest archive with the `libtensorflow` on the official website [is still 2.15](https://www.tensorflow.org/install/lang_c). Where can I get the latest 2.16.1 `libtensorflow` with GPU support for Linux?
+
+### Standalone code to reproduce the issue
+
+```shell
+-
+```
+
+
+### Relevant log output
+
+_No response_",2024-03-10T20:56:00Z,0
+Make function loading more concurrent with `TF_ENABLE_EAGER_CLIENT_STREAMING_ENQUEUE` set to `false`,"Make function loading more concurrent with `TF_ENABLE_EAGER_CLIENT_STREAMING_ENQUEUE` set to `false`
+",2024-03-10T19:12:58Z,0
+Testing a temporary code change.,"Testing a temporary code change.
+",2024-03-10T18:13:15Z,0
+[XLA:Python] Port py_values to nanobind.,"[XLA:Python] Port py_values to nanobind.
+",2024-03-10T15:11:31Z,0
+tf.tensor_scatter_nd_add: Aborted (core dumped),"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+Under specific input, `tf.tensor_scatter_nd_add` encounters ""Aborted (core dumped)"".
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+# Generate input data
+input_tensor = tf.zeros([15, 15, 15])
+indices = tf.constant([[[0, 0, 0], [1, 1, 1]], [[2, 2, 2], [3, 3, 3]], [[4, 4, 4], [5, 5, 5]], [[6, 6, 6], [7, 7, 7]], [[8, 8, 8], [9, 9, 9]], [[10, 10, 10], [11, 11, 11]], [[12, 12, 12], [13, 13, 13]], [[14, 14, 14], [0, 0, 0]], [[1, 1, 1], [2, 2, 2]], [[3, 3, 3], [4, 4, 4]], [[5, 5, 5], [6, 6, 6]], [[7, 7, 7], [8, 8, 8]], [[9, 9, 9], [10, 10, 10]], [[11, 11, 11], [12, 12, 12]], [[13, 13, 13], [14, 14, 14]]])
+updates = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0])  # Cast updates to float
+
+# Invoke tf.tensor_scatter_nd_add
+result = tf.tensor_scatter_nd_add(input_tensor, indices, updates)
+
+# Print the result
+print(result)
+```
+
+
+### Relevant log output
+
+```shell
+2024-03-10 14:59:51.853766: F tensorflow/core/framework/tensor_shape.cc:357] Check failed: d < dims() (1 vs. 1)
+Aborted (core dumped)
+```
+",2024-03-10T15:00:49Z,0
+tf.raw_ops.UnicodeEncode: Segmentation fault (core dumped),"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+Under specific input, `tf.raw_ops.UnicodeEncode` encounters ""Segmentation fault (core dumped)"".
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+# Generate input data
+input_values = tf.constant([72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100])  # Unicode codepoints for ""Hello World""
+input_splits = tf.constant([[0, 5, 11]])  # Split indices for the input_values with two dimensions
+output_encoding = ""UTF-8""
+
+# Invoke tf.raw_ops.unicode_encode
+output = tf.raw_ops.UnicodeEncode(input_values=input_values, input_splits=input_splits, output_encoding=output_encoding)
+
+# Print the output
+print(output)
+```
+
+
+### Relevant log output
+
+```shell
+Segmentation fault (core dumped)
+```
+",2024-03-10T14:59:08Z,0
+tf.raw_ops.TensorScatterSub: Aborted (core dumped),"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+Under specific input, `tf.raw_ops.TensorScatterSub` encounters ""Aborted (core dumped)"".
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+# Generate input data
+tensor = tf.constant([1, 2, 3, 4, 5])
+indices = tf.constant([[[1], [3]], [[0], [2]]])  # Nested structure for indices
+updates = tf.constant([10, 20])
+
+# Invoke tf.raw_ops.TensorScatterSub
+result = tf.raw_ops.TensorScatterSub(tensor=tensor, indices=indices, updates=updates)
+
+# Print the result
+print(result)
+```
+
+
+### Relevant log output
+
+```shell
+2024-03-10 14:55:41.958738: F tensorflow/core/framework/tensor_shape.cc:357] Check failed: d < dims() (1 vs. 1)
+Aborted (core dumped)
+```
+",2024-03-10T14:57:36Z,0
+tf.raw_ops.SparseConcat: Overflow bug ,"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+Under specific input, `tf.raw_ops.SparseConcat` encounters overflow bug.
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+# Generate input data
+indices1 = tf.constant([[0, 0], [1, 2]], dtype=tf.int64)
+values1 = tf.constant([1, 2], dtype=tf.float32)
+shape1 = tf.constant([3, 4], dtype=tf.int64)
+
+indices2 = tf.constant([[0, 1], [2, 3]], dtype=tf.int64)
+values2 = tf.constant([3, 4], dtype=tf.float32)
+shape2 = tf.constant([-1, 4], dtype=tf.int64)  # Mutated shape with the negative bit set
+
+# Invoke tf.raw_ops.SparseConcat
+concatenated_sparse = tf.raw_ops.SparseConcat(
+    indices=[indices1, indices2],
+    values=[values1, values2],
+    shapes=[shape1, shape2],
+    concat_dim=0
+)
+
+print(concatenated_sparse)
+```
+
+
+### Relevant log output
+
+```shell
+tensorflow.python.framework.errors_impl.InternalError: {{function_node __wrapped__SparseConcat_N_2_device_/job:localhost/replica:0/task:0/device:CPU:0}} Encountered overflow from large input shape. [Op:SparseConcat] name:
+```
+",2024-03-10T14:55:13Z,0
+tf.raw_ops.FusedPadConv2D: Aborted (core dumped),"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+Under specific input, `tf.raw_ops.FusedPadConv2D` encounters ""Aborted (core dumped)"".
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+# Generate input data
+input_data = tf.random.normal([3, 10, 10])
+
+# Define paddings
+paddings = tf.constant([[0, 0], [1, 1], [1, 1]])
+
+# Define filter
+filter = tf.random.normal([3, 3, 3, 16])
+
+# Define mode
+mode = ""REFLECT""  # Change mode to ""REFLECT"" or ""SYMMETRIC""
+
+# Define strides
+strides = [1, 1, 1, 1]
+
+# Define padding
+padding = ""VALID""
+
+# Invoke tf.raw_ops.FusedPadConv2D
+output = tf.raw_ops.FusedPadConv2D(input=input_data, paddings=paddings, filter=filter, mode=mode, strides=strides, padding=padding)
+
+print(output)
+```
+
+
+### Relevant log output
+
+```shell
+2024-03-10 14:49:28.555826: F tensorflow/core/framework/tensor_shape.cc:357] Check failed: d < dims() (3 vs. 3)
+Aborted (core dumped)
+```
+",2024-03-10T14:51:07Z,0
+tf.tensor_scatter_nd_update: Aborted (core dumped),"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+Under specific input, `tf.tensor_scatter_nd_update` encounters ""Aborted (core dumped)"".
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+# Generate input data
+input_tensor = tf.zeros([2, 2, 2])  # A tensor that contains other tensors, creating a nested structure
+indices = tf.constant([[[0, 0, 0], [1, 1, 1]], [[1, 0, 1], [0, 1, 0]]])
+updates = tf.constant([1, 2], dtype=tf.float32)  # Cast updates to float
+
+# Invoke tf.tensor_scatter_nd_update
+result = tf.tensor_scatter_nd_update(input_tensor, indices, updates)
+
+# Print the result
+print(result)
+```
+
+
+### Relevant log output
+
+```shell
+2024-03-10 14:36:43.315650: F tensorflow/core/framework/tensor_shape.cc:357] Check failed: d < dims() (1 vs. 1)
+Aborted (core dumped)
+```
+",2024-03-10T14:48:19Z,0
+failed to compile a tensorflow C++ example. # Error incompatible with your Protocol Buffer headers ,"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+No
+
+### Source
+
+source
+
+### TensorFlow version
+
+tf 2.15.0
+
+### Custom code
+
+No
+
+### OS platform and distribution
+
+Linux Ubuntu 22.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.10.12
+
+### Bazel version
+
+6.1.0
+
+### GCC/compiler version
+
+11.4.0
+
+### CUDA/cuDNN version
+
+12.2/8.9.7
+
+### GPU model and memory
+
+GTX 3090/24G
+
+### Current behavior?
+
+I first compiled TensorFlow using Bazel according to the official documentation, these are my operations:
+`git clone https://github.com/tensorflow/tensorflow`
+`cd tensorflow`
+`git checkout r2.15`
+`./configure `
+and information is:
+
+> 
+> You have bazel 6.1.0 installed.
+> Please specify the location of python. [Default is /usr/bin/python3]: 
+> 
+> 
+> Found possible Python library paths:
+>   /usr/lib/python3/dist-packages
+>   /usr/local/lib/python3.10/dist-packages
+> Please input the desired Python library path to use.  Default is [/usr/lib/python3/dist-packages]
+> 
+> Do you wish to build TensorFlow with ROCm support? [y/N]: n
+> No ROCm support will be enabled for TensorFlow.
+> 
+> Do you wish to build TensorFlow with CUDA support? [y/N]: y
+> CUDA support will be enabled for TensorFlow.
+> 
+> Do you wish to build TensorFlow with TensorRT support? [y/N]: n
+> No TensorRT support will be enabled for TensorFlow.
+> 
+> Found CUDA 12.2 in:
+>     /usr/local/cuda-12.2/targets/x86_64-linux/lib
+>     /usr/local/cuda-12.2/targets/x86_64-linux/include
+> Found cuDNN 8 in:
+>     /usr/lib/x86_64-linux-gnu
+>     /usr/include
+> 
+> 
+> Please specify a list of comma-separated CUDA compute capabilities you want to build with.
+> You can find the compute capability of your device at: https://developer.nvidia.com/cuda-gpus. Each capability can be specified as ""x.y"" or ""compute_xy"" to include both virtual and binary GPU code, or as ""sm_xy"" to only include the binary code.
+> Please note that each additional compute capability significantly increases your build time and binary size, and that TensorFlow only supports compute capabilities >= 3.5 [Default is: 8.6]: 
+> 
+> 
+> Do you want to use clang as CUDA compiler? [Y/n]: n
+> nvcc will be used as CUDA compiler.
+> 
+> Please specify which gcc should be used by nvcc as the host compiler. [Default is /usr/bin/gcc]: 
+> 
+> 
+> Please specify optimization flags to use during compilation when bazel option ""--config=opt"" is specified [Default is -Wno-sign-compare]: 
+> 
+> 
+> Would you like to interactively configure ./WORKSPACE for Android builds? [y/N]: n
+> Not configuring the WORKSPACE for Android builds.
+> 
+> Preconfigured Bazel build configs. You can use any of the below by adding ""--config=<>"" to your build command. See .bazelrc for more details.
+> 	--config=mkl         	# Build with MKL support.
+> 	--config=mkl_aarch64 	# Build with oneDNN and Compute Library for the Arm Architecture (ACL).
+> 	--config=monolithic  	# Config for mostly static monolithic build.
+> 	--config=numa        	# Build with NUMA support.
+> 	--config=dynamic_kernels	# (Experimental) Build kernels into separate shared objects.
+> 	--config=v1          	# Build with TensorFlow 1 API instead of TF 2 API.
+> Preconfigured Bazel build configs to DISABLE default on features:
+> 	--config=nogcp       	# Disable GCP support.
+> 	--config=nonccl      	# Disable NVIDIA NCCL support.
+> Configuration finished
+
+and I then compile with bazel:
+`bazel build --config=cuda tensorflow:tensorflow_cc`
+`bazel build tensorflow:install_headers`
+
+There were no issues, I successfully compiled the header files and link libraries I wanted in the `bazel-bin` folder.
+But when I try to compile a C++ sample:
+```
+#include <tensorflow/core/platform/env.h>
+#include <tensorflow/core/public/session.h>
+
+#include <iostream>
+
+using namespace std;
+using namespace tensorflow;
+
+int main()
+{
+    Session* session;
+    Status status = NewSession(SessionOptions(), &session);
+    if (!status.ok()) {
+        cout << status.ToString() << ""\n"";
+        return 1;
+    }
+    cout << ""Session successfully created.\n"";
+}
+
+```
+
+command is 
+`g++ -std=c++14 -o tf_example -I/home/wangchen/tensorflow/bazel-bin/tensorflow/include -L/home/wangchen/tensorflow/bazel-bin/tensorflow/libtensorflow_cc -L/home/wangchen/tensorflow/bazel-bin/tensorflow/libtensorflow_framework -ltensorflow_framework -ltensorflow_cc tf_example.cpp `
+
+I got an error #error This file was generated by an older version of protoc which is incompatible with your Protocol Buffer headers. Please regenerate this file with a newer version of protoc.
+
+My protobuf is compiled from official repo, the versions are:
+```
+{
+    ""23.x"": {
+        ""protoc_version"": ""23.4"",
+        ""lts"": false,
+        ""date"": ""2023-07-05"",
+        ""languages"": {
+            ""cpp"": ""4.23.4"",
+            ""csharp"": ""3.23.4"",
+            ""java"": ""3.23.4"",
+            ""javascript"": ""3.23.4"",
+            ""objectivec"": ""3.23.4"",
+            ""php"": ""3.23.4"",
+            ""python"": ""4.23.4"",
+            ""ruby"": ""3.23.4""
+        }
+    }
+}
+```
+I suspect there might be some protobuf versions that are incompatible with my TensorFlow. 
+What methods should I use to obtain the correct version? 
+I would greatly appreciate any proposed solutions.
+
+
+### Standalone code to reproduce the issue
+
+```shell
+#include <tensorflow/core/platform/env.h>
+#include <tensorflow/core/public/session.h>
+
+#include <iostream>
+
+using namespace std;
+using namespace tensorflow;
+
+int main()
+{
+    Session* session;
+    Status status = NewSession(SessionOptions(), &session);
+    if (!status.ok()) {
+        cout << status.ToString() << ""\n"";
+        return 1;
+    }
+    cout << ""Session successfully created.\n"";
+}
+
+```
+```
+
+
+### Relevant log output
+
+```shell
+wangchen@wc:~/tfc++test$ g++ -std=c++14 -o tf_example -I/home/wangchen/tensorflow/bazel-bin/tensorflow/include -L/home/wangchen/tensorflow/bazel-bin/tensorflow/libtensorflow_cc -L/home/wangchen/tensorflow/bazel-bin/tensorflow/libtensorflow_framework -ltensorflow_framework -ltensorflow_cc tf_example.cpp 
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tsl/platform/status.h:39,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/platform/status.h:23,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/platform/errors.h:27,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/platform/env.h:27,
+                 from tf_example.cpp:1:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tsl/protobuf/error_codes.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tsl/protobuf/error_codes.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tsl/protobuf/error_codes.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:24,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/device_attributes.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/device_attributes.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/device_attributes.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/attr_value.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/attr_value.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/attr_value.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/attr_value.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/attr_value.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/resource_handle.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/resource_handle.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/resource_handle.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/resource_handle.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/attr_value.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor_shape.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor_shape.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor_shape.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/resource_handle.pb.h:34,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/attr_value.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/types.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/types.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/types.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:37,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/node_def.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/node_def.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/node_def.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/node_def.pb.h:37,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:37,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/full_type.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/full_type.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/full_type.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/function.pb.h:38,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:33,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/op_def.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/op_def.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/op_def.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:34,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph_debug_info.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph_debug_info.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph_debug_info.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/graph.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:25,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/versions.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/versions.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/versions.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:30,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/config.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/config.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/config.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/config.pb.h:37,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:30,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/cost_graph.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/cost_graph.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/cost_graph.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/config.pb.h:39,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:30,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/step_stats.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/step_stats.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/step_stats.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/step_stats.pb.h:36,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/config.pb.h:39,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:30,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/allocation_description.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/allocation_description.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/allocation_description.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/step_stats.pb.h:37,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/config.pb.h:39,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:30,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor_description.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor_description.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/framework/tensor_description.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/config.pb.h:40,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:30,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/cluster.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/cluster.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/cluster.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+In file included from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/config.pb.h:41,
+                 from /home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/public/session.h:30,
+                 from tf_example.cpp:2:
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/debug.pb.h:17:2: error: #error This file was generated by an older version of protoc which is
+   17 | #error This file was generated by an older version of protoc which is
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/debug.pb.h:18:2: error: #error incompatible with your Protocol Buffer headers. Please
+   18 | #error incompatible with your Protocol Buffer headers. Please
+      |  ^~~~~
+/home/wangchen/tensorflow/bazel-bin/tensorflow/include/tensorflow/core/protobuf/debug.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+   19 | #error regenerate this file with a newer version of protoc.
+      |  ^~~~~
+```
+",2024-03-10T04:22:46Z,0
+Saved model won't load: Unable to synchronously open object (bad local heap signature),"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+2.16.1
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+windows 10
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.12
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+Model saved from Python 3.12 tensorflow 2.16.1
+model.save('my_model.keras', overwrite=True)
+
+After this the model does not load
+
+### Standalone code to reproduce the issue
+
+```shell
+model=tf.keras.models.load_model('my_model.keras', custom_objects=None, compile=True, safe_mode=True)
+```
+
+
+### Relevant log output
+
+```shell
+Traceback (most recent call last):
+  File ""D:\Project\main.py"", line 391, in <module>
+    model=tf.keras.models.load_model('my_model.keras', custom_objects=None, compile=True, safe_mode=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""D:\Project\venv\Lib\site-packages\keras\src\saving\saving_api.py"", line 176, in load_model
+    return saving_lib.load_model(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File ""D:\Project\venv\Lib\site-packages\keras\src\saving\saving_lib.py"", line 192, in load_model
+    _raise_loading_failure(error_msgs)
+  File ""D:\Project\venv\Lib\site-packages\keras\src\saving\saving_lib.py"", line 273, in _raise_loading_failure
+    raise ValueError(msg)
+ValueError: A total of 13 objects could not be loaded. Example error message for object <Sequential name=sequential, built=True>:
+
+'Unable to synchronously open object (bad local heap signature)'
+
+List of objects that could not be loaded:
+[<Sequential name=sequential, built=True>, <TextVectorization name=text_vectorization, built=True>, <StringLookup name=string_lookup_1, built=False>, <Embedding name=embedding, built=True>, <Conv1D name=conv1d, built=True>, <Dropout name=dropout, built=True>, <Conv1D name=conv1d_1, built=True>, <Dropout name=dropout_1, built=True>, <GlobalMaxPooling1D name=global_max_pooling1d, built=True>, <Dense name=dense, built=True>, <Dropout name=dropout_2, built=True>, <Dense name=dense_1, built=True>, <keras.src.optimizers.adam.Adam object at 0x000001C5026B24E0>]
+```
+",2024-03-10T04:07:46Z,1
+Tensorflow import error,"### Issue type
+
+Build/Install
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+source
+
+### TensorFlow version
+
+tf 2.13.0
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Win 11
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9.7
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+I intalled tensorflow, but it gives an error when I try to import it.
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+```
+
+
+### Relevant log output
+
+```shell
+runfile('X:/Nano-Photonics and Quantum Optics Lab!/ML Project/Tkinter learning/Tkinter Git - GitLab/Inverse_Design_Periodic_GUI_CustomModern.py', wdir='X:/Nano-Photonics and Quantum Optics Lab!/ML Project/Tkinter learning/Tkinter Git - GitLab')
+Traceback (most recent call last):
+
+  File ""X:\Nano-Photonics and Quantum Optics Lab!\ML Project\Tkinter learning\Tkinter Git - GitLab\Inverse_Design_Periodic_GUI_CustomModern.py"", line 20, in <module>
+    import tensorflow as tf  #print(tf.__version__)
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\tensorflow\__init__.py"", line 469, in <module>
+    _keras._load()
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\tensorflow\python\util\lazy_loader.py"", line 41, in _load
+    module = importlib.import_module(self.__name__)
+
+  File ""C:\Users\athen\anaconda3\lib\importlib\__init__.py"", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\__init__.py"", line 20, in <module>
+    from keras import distribute
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\distribute\__init__.py"", line 18, in <module>
+    from keras.distribute import sidecar_evaluator
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\distribute\sidecar_evaluator.py"", line 22, in <module>
+    from keras.optimizers.optimizer_experimental import (
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\optimizers\__init__.py"", line 25, in <module>
+    from keras import backend
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\backend\__init__.py"", line 3, in <module>
+    from keras.backend import experimental
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\backend\experimental\__init__.py"", line 3, in <module>
+    from keras.src.backend import disable_tf_random_generator
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\__init__.py"", line 21, in <module>
+    from keras.src import applications
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\applications\__init__.py"", line 18, in <module>
+    from keras.src.applications.convnext import ConvNeXtBase
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\applications\convnext.py"", line 28, in <module>
+    from keras.src import backend
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\backend.py"", line 35, in <module>
+    from keras.src.engine import keras_tensor
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\engine\keras_tensor.py"", line 19, in <module>
+    from keras.src.utils import object_identity
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\utils\__init__.py"", line 20, in <module>
+    from keras.src.saving.serialization_lib import deserialize_keras_object
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\saving\serialization_lib.py"", line 28, in <module>
+    from keras.src.saving.legacy.saved_model.utils import in_tf_saved_model_scope
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\saving\legacy\saved_model\utils.py"", line 30, in <module>
+    from keras.src.utils.layer_utils import CallFunctionSpec
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\utils\layer_utils.py"", line 26, in <module>
+    from keras.src import initializers
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\initializers\__init__.py"", line 23, in <module>
+    from keras.src.initializers import initializers_v1
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\keras\src\initializers\initializers_v1.py"", line 32, in <module>
+    keras_export(v1=[""keras.initializers.Zeros"", ""keras.initializers.zeros""])(
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\tensorflow\python\util\tf_export.py"", line 348, in __call__
+    self.set_attr(undecorated_func, api_names_attr, self._names)
+
+  File ""C:\Users\athen\anaconda3\lib\site-packages\tensorflow\python\util\tf_export.py"", line 363, in set_attr
+    raise SymbolAlreadyExposedError(
+
+SymbolAlreadyExposedError: Symbol Zeros is already exposed as ().
+```
+",2024-03-10T01:09:44Z,2
+TF 2.16.1 Fails to work with GPUs,"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+No
+
+### Source
+
+binary
+
+### TensorFlow version
+
+TF 2.16.1
+
+### Custom code
+
+No
+
+### OS platform and distribution
+
+Linux Ubuntu 22.04.4 LTS
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.10.12
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+12.4
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+I created a python venv in which I installed TF 2.16.1 following your instructions: pip install tensorflow
+When I run python, import tf,  and issue tf.config.list_physical_devices('GPU') 
+I get an empty list  [ ]
+
+I created another python venv, installed TF 2.16.1, only this time with the instructions: 
+
+ python3 -m pip install tensorflow[and-cuda]
+ 
+When I run that version, import tensorflow as tf, and  issue
+
+ tf.config.list_physical_devices('GPU') 
+
+I also get an empty list. 
+
+BTW, I have no problems running  on my box TF 2.15.1 with GPUs. Julia also works just fine with GPUs and so does PyTorch.
+the 
+ 
+
+
+### Standalone code to reproduce the issue
+
+```shell
+Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux
+Type ""help"", ""copyright"", ""credits"" or ""license"" for more information.
+>>> import tensorflow as tf
+2024-03-09 19:15:45.018171: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-03-09 19:15:50.412646: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+>>> tf.__version__
+'2.16.1'
+
+tf.config.list_physical_devices('GPU') 
+2024-03-09 19:16:28.923792: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:998] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2024-03-09 19:16:29.078379: W tensorflow/core/common_runtime/gpu/gpu_device.cc:2251] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+[]
+>>>
+```
+
+
+### Relevant log output
+
+_No response_",2024-03-10T00:17:36Z,6
+Replace `RemoteTensorHandle` with `TensorProto` for scalars in an `EnqueueRequest` except for `DT_RESOURCE`,"Replace `RemoteTensorHandle` with `TensorProto` for scalars in an `EnqueueRequest` except for `DT_RESOURCE`
+",2024-03-09T20:18:30Z,0
+tensorflow 2.16.1 build error: Compiling xla/service/cpu/onednn_matmul.cc failed,"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+No
+
+### Source
+
+source
+
+### TensorFlow version
+
+2.16.1
+
+### Custom code
+
+No
+
+### OS platform and distribution
+
+Linux Ubuntu 22.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.11.8
+
+### Bazel version
+
+6.5.0
+
+### GCC/compiler version
+
+11.4.0
+
+### CUDA/cuDNN version
+
+12.4/9.0.0.312
+
+### GPU model and memory
+
+NVIDIA GeForce 940MX
+
+### Current behavior?
+
+INFO: Reading 'startup' options from ~/Documents/dev/git/tensorflow/.bazelrc: --windows_enable_symlinks
+INFO: Options provided by the client:
+  Inherited 'common' options: --isatty=1 --terminal_columns=211
+INFO: Reading rc options for 'build' from ~/Documents/dev/git/tensorflow/.bazelrc:
+  Inherited 'common' options: --experimental_repo_remote_exec
+INFO: Reading rc options for 'build' from ~/Documents/dev/git/tensorflow/.bazelrc:
+  'build' options: --define framework_shared_object=true --define tsl_protobuf_header_only=true --define=use_fast_cpp_protos=true --define=allow_oversize_protos=true --spawn_strategy=standalone -c opt --announce_rc --define=grpc_no_ares=true --noincompatible_remove_legacy_whole_archive --features=-force_no_whole_archive --enable_platform_specific_config --define=with_xla_support=true --config=short_logs --config=v2 --define=no_aws_support=true --define=no_hdfs_support=true --experimental_cc_shared_library --experimental_link_static_libraries_once=false --incompatible_enforce_config_setting_visibility
+INFO: Reading rc options for 'build' from ~/Documents/dev/git/tensorflow/.tf_configure.bazelrc:
+  'build' options: --action_env PYTHON_BIN_PATH=~/Documents/dev/programs/miniconda3/envs/tf/bin/python3 --action_env PYTHON_LIB_PATH=~/Documents/dev/programs/miniconda3/envs/tf/lib/python3.11/site-packages --python_path=~/Documents/dev/programs/miniconda3/envs/tf/bin/python3 --action_env CUDA_TOOLKIT_PATH=/usr/local/cuda-12.3 --action_env TF_CUDA_COMPUTE_CAPABILITIES=5.0 --action_env LD_LIBRARY_PATH=/usr/lib/libreoffice/program:/usr/local/cuda/targets/x86_64-linux/lib:/usr/lib/x86_64-linux-gnu --action_env GCC_HOST_COMPILER_PATH=/usr/bin/x86_64-linux-gnu-gcc-11 --config=cuda
+INFO: Found applicable config definition build:short_logs in file ~/Documents/dev/git/tensorflow/.bazelrc: --output_filter=DONT_MATCH_ANYTHING
+INFO: Found applicable config definition build:v2 in file ~/Documents/dev/git/tensorflow/.bazelrc: --define=tf_api_version=2 --action_env=TF2_BEHAVIOR=1
+INFO: Found applicable config definition build:cuda in file ~/Documents/dev/git/tensorflow/.bazelrc: --repo_env TF_NEED_CUDA=1 --crosstool_top=@local_config_cuda//crosstool:toolchain --@local_config_cuda//:enable_cuda
+INFO: Found applicable config definition build:mkl in file ~/Documents/dev/git/tensorflow/.bazelrc: --define=build_with_mkl=true --define=enable_mkl=true --define=tensorflow_mkldnn_contraction_kernel=0 --define=build_with_openmp=true -c opt
+INFO: Found applicable config definition build:opt in file ~/Documents/dev/git/tensorflow/.tf_configure.bazelrc: --copt=-Wno-sign-compare --host_copt=-Wno-sign-compare
+INFO: Found applicable config definition build:linux in file ~/Documents/dev/git/tensorflow/.bazelrc: --host_copt=-w --copt=-Wno-all --copt=-Wno-extra --copt=-Wno-deprecated --copt=-Wno-deprecated-declarations --copt=-Wno-ignored-attributes --copt=-Wno-array-bounds --copt=-Wunused-result --copt=-Werror=unused-result --copt=-Wswitch --copt=-Werror=switch --copt=-Wno-error=unused-but-set-variable --define=PREFIX=/usr --define=LIBDIR=$(PREFIX)/lib --define=INCLUDEDIR=$(PREFIX)/include --define=PROTOBUF_INCLUDE_PATH=$(PREFIX)/include --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --config=dynamic_kernels --experimental_guard_against_concurrent_changes
+INFO: Found applicable config definition build:dynamic_kernels in file ~/Documents/dev/git/tensorflow/.bazelrc: --define=dynamic_loaded_kernels=true --copt=-DAUTOLOAD_DYNAMIC_KERNELS
+INFO: Analyzed target //tensorflow/tools/pip_package:build_pip_package (711 packages loaded, 51601 targets configured).
+INFO: Found 1 target...
+ERROR: ~/.cache/bazel/_bazel_vyepishov/cf67b2b2e967476eb2b1ee98e33ab5bd/external/local_xla/xla/service/cpu/BUILD:1638:11: Compiling xla/service/cpu/onednn_matmul.cc failed: (Exit 1): crosstool_wrapper_driver_is_not_gcc failed: error executing command (from target @local_xla//xla/service/cpu:onednn_matmul) external/local_config_cuda/crosstool/clang/bin/crosstool_wrapper_driver_is_not_gcc -MD -MF bazel-out/k8-opt/bin/external/local_xla/xla/service/cpu/_objs/onednn_matmul/onednn_matmul.pic.d ... (remaining 229 arguments skipped)
+In file included from external/local_xla/xla/shape.h:28,
+                 from external/local_xla/xla/service/cpu/onednn_matmul.h:21,
+                 from external/local_xla/xla/service/cpu/onednn_matmul.cc:18:
+external/local_xla/xla/layout.h:377:18: warning: ‘xla::Layout::DimInfo::dim_level_type’ is too small to hold all values of ‘enum xla::DimLevelType’
+  377 |     DimLevelType dim_level_type : 6;
+      |                  ^~~~~~~~~~~~~~
+external/local_xla/xla/layout.h:389:17: warning: ‘xla::Layout::index_primitive_type_’ is too small to hold all values of ‘enum xla::PrimitiveType’
+  389 |   PrimitiveType index_primitive_type_ : 8;
+      |                 ^~~~~~~~~~~~~~~~~~~~~
+external/local_xla/xla/layout.h:390:17: warning: ‘xla::Layout::pointer_primitive_type_’ is too small to hold all values of ‘enum xla::PrimitiveType’
+  390 |   PrimitiveType pointer_primitive_type_ : 8;
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~
+external/local_xla/xla/service/cpu/onednn_matmul.cc: In function ‘void xla::cpu::__xla_cpu_runtime_OneDnnMatMul(void*, void**)’:
+external/local_xla/xla/service/cpu/onednn_matmul.cc:186:68: error: cannot convert ‘std::unique_ptr<tsl::OneDnnThreadPool>::pointer’ {aka ‘tsl::OneDnnThreadPool*’} to ‘dnnl::threadpool_interop::threadpool_iface*’
+  186 |   auto onednn_stream = MakeOneDnnStream(cpu_engine, thread_pool.get());
+      |                                                     ~~~~~~~~~~~~~~~^~
+      |                                                                    |
+      |                                                                    std::unique_ptr<tsl::OneDnnThreadPool>::pointer {aka tsl::OneDnnThreadPool*}
+external/local_xla/xla/service/cpu/onednn_matmul.cc:148:49: note:   initializing argument 2 of ‘dnnl::stream xla::cpu::{anonymous}::MakeOneDnnStream(const dnnl::engine&, dnnl::threadpool_interop::threadpool_iface*)’
+  148 |     dnnl::threadpool_interop::threadpool_iface* thread_pool) {
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+external/local_xla/xla/service/cpu/onednn_matmul.cc: In function ‘void xla::cpu::__xla_cpu_runtime_OneDnnMatMulReorder(void*, void**)’:
+external/local_xla/xla/service/cpu/onednn_matmul.cc:322:68: error: cannot convert ‘std::unique_ptr<tsl::OneDnnThreadPool>::pointer’ {aka ‘tsl::OneDnnThreadPool*’} to ‘dnnl::threadpool_interop::threadpool_iface*’
+  322 |   auto onednn_stream = MakeOneDnnStream(cpu_engine, thread_pool.get());
+      |                                                     ~~~~~~~~~~~~~~~^~
+      |                                                                    |
+      |                                                                    std::unique_ptr<tsl::OneDnnThreadPool>::pointer {aka tsl::OneDnnThreadPool*}
+external/local_xla/xla/service/cpu/onednn_matmul.cc:148:49: note:   initializing argument 2 of ‘dnnl::stream xla::cpu::{anonymous}::MakeOneDnnStream(const dnnl::engine&, dnnl::threadpool_interop::threadpool_iface*)’
+  148 |     dnnl::threadpool_interop::threadpool_iface* thread_pool) {
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+Target //tensorflow/tools/pip_package:build_pip_package failed to build
+Use --verbose_failures to see the command lines of failed build steps.
+INFO: Elapsed time: 16142.186s, Critical Path: 328.40s
+INFO: 25824 processes: 8831 internal, 16993 local.
+FAILED: Build did NOT complete successfully
+
+### Standalone code to reproduce the issue
+
+```shell
+bazel build --config=mkl --config=opt //tensorflow/tools/pip_package:build_pip_package
+```
+
+
+### Relevant log output
+
+```shell
+INFO: Reading 'startup' options from ~/Documents/dev/git/tensorflow/.bazelrc: --windows_enable_symlinks
+INFO: Options provided by the client:
+  Inherited 'common' options: --isatty=1 --terminal_columns=211
+INFO: Reading rc options for 'build' from ~/Documents/dev/git/tensorflow/.bazelrc:
+  Inherited 'common' options: --experimental_repo_remote_exec
+INFO: Reading rc options for 'build' from ~/Documents/dev/git/tensorflow/.bazelrc:
+  'build' options: --define framework_shared_object=true --define tsl_protobuf_header_only=true --define=use_fast_cpp_protos=true --define=allow_oversize_protos=true --spawn_strategy=standalone -c opt --announce_rc --define=grpc_no_ares=true --noincompatible_remove_legacy_whole_archive --features=-force_no_whole_archive --enable_platform_specific_config --define=with_xla_support=true --config=short_logs --config=v2 --define=no_aws_support=true --define=no_hdfs_support=true --experimental_cc_shared_library --experimental_link_static_libraries_once=false --incompatible_enforce_config_setting_visibility
+INFO: Reading rc options for 'build' from ~/Documents/dev/git/tensorflow/.tf_configure.bazelrc:
+  'build' options: --action_env PYTHON_BIN_PATH=~/Documents/dev/programs/miniconda3/envs/tf/bin/python3 --action_env PYTHON_LIB_PATH=~/Documents/dev/programs/miniconda3/envs/tf/lib/python3.11/site-packages --python_path=~/Documents/dev/programs/miniconda3/envs/tf/bin/python3 --action_env CUDA_TOOLKIT_PATH=/usr/local/cuda-12.3 --action_env TF_CUDA_COMPUTE_CAPABILITIES=5.0 --action_env LD_LIBRARY_PATH=/usr/lib/libreoffice/program:/usr/local/cuda/targets/x86_64-linux/lib:/usr/lib/x86_64-linux-gnu --action_env GCC_HOST_COMPILER_PATH=/usr/bin/x86_64-linux-gnu-gcc-11 --config=cuda
+INFO: Found applicable config definition build:short_logs in file ~/Documents/dev/git/tensorflow/.bazelrc: --output_filter=DONT_MATCH_ANYTHING
+INFO: Found applicable config definition build:v2 in file ~/Documents/dev/git/tensorflow/.bazelrc: --define=tf_api_version=2 --action_env=TF2_BEHAVIOR=1
+INFO: Found applicable config definition build:cuda in file ~/Documents/dev/git/tensorflow/.bazelrc: --repo_env TF_NEED_CUDA=1 --crosstool_top=@local_config_cuda//crosstool:toolchain --@local_config_cuda//:enable_cuda
+INFO: Found applicable config definition build:mkl in file ~/Documents/dev/git/tensorflow/.bazelrc: --define=build_with_mkl=true --define=enable_mkl=true --define=tensorflow_mkldnn_contraction_kernel=0 --define=build_with_openmp=true -c opt
+INFO: Found applicable config definition build:opt in file ~/Documents/dev/git/tensorflow/.tf_configure.bazelrc: --copt=-Wno-sign-compare --host_copt=-Wno-sign-compare
+INFO: Found applicable config definition build:linux in file ~/Documents/dev/git/tensorflow/.bazelrc: --host_copt=-w --copt=-Wno-all --copt=-Wno-extra --copt=-Wno-deprecated --copt=-Wno-deprecated-declarations --copt=-Wno-ignored-attributes --copt=-Wno-array-bounds --copt=-Wunused-result --copt=-Werror=unused-result --copt=-Wswitch --copt=-Werror=switch --copt=-Wno-error=unused-but-set-variable --define=PREFIX=/usr --define=LIBDIR=$(PREFIX)/lib --define=INCLUDEDIR=$(PREFIX)/include --define=PROTOBUF_INCLUDE_PATH=$(PREFIX)/include --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --config=dynamic_kernels --experimental_guard_against_concurrent_changes
+INFO: Found applicable config definition build:dynamic_kernels in file ~/Documents/dev/git/tensorflow/.bazelrc: --define=dynamic_loaded_kernels=true --copt=-DAUTOLOAD_DYNAMIC_KERNELS
+INFO: Analyzed target //tensorflow/tools/pip_package:build_pip_package (711 packages loaded, 51601 targets configured).
+INFO: Found 1 target...
+ERROR: ~/.cache/bazel/_bazel_vyepishov/cf67b2b2e967476eb2b1ee98e33ab5bd/external/local_xla/xla/service/cpu/BUILD:1638:11: Compiling xla/service/cpu/onednn_matmul.cc failed: (Exit 1): crosstool_wrapper_driver_is_not_gcc failed: error executing command (from target @local_xla//xla/service/cpu:onednn_matmul) external/local_config_cuda/crosstool/clang/bin/crosstool_wrapper_driver_is_not_gcc -MD -MF bazel-out/k8-opt/bin/external/local_xla/xla/service/cpu/_objs/onednn_matmul/onednn_matmul.pic.d ... (remaining 229 arguments skipped)
+In file included from external/local_xla/xla/shape.h:28,
+                 from external/local_xla/xla/service/cpu/onednn_matmul.h:21,
+                 from external/local_xla/xla/service/cpu/onednn_matmul.cc:18:
+external/local_xla/xla/layout.h:377:18: warning: ‘xla::Layout::DimInfo::dim_level_type’ is too small to hold all values of ‘enum xla::DimLevelType’
+  377 |     DimLevelType dim_level_type : 6;
+      |                  ^~~~~~~~~~~~~~
+external/local_xla/xla/layout.h:389:17: warning: ‘xla::Layout::index_primitive_type_’ is too small to hold all values of ‘enum xla::PrimitiveType’
+  389 |   PrimitiveType index_primitive_type_ : 8;
+      |                 ^~~~~~~~~~~~~~~~~~~~~
+external/local_xla/xla/layout.h:390:17: warning: ‘xla::Layout::pointer_primitive_type_’ is too small to hold all values of ‘enum xla::PrimitiveType’
+  390 |   PrimitiveType pointer_primitive_type_ : 8;
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~
+external/local_xla/xla/service/cpu/onednn_matmul.cc: In function ‘void xla::cpu::__xla_cpu_runtime_OneDnnMatMul(void*, void**)’:
+external/local_xla/xla/service/cpu/onednn_matmul.cc:186:68: error: cannot convert ‘std::unique_ptr<tsl::OneDnnThreadPool>::pointer’ {aka ‘tsl::OneDnnThreadPool*’} to ‘dnnl::threadpool_interop::threadpool_iface*’
+  186 |   auto onednn_stream = MakeOneDnnStream(cpu_engine, thread_pool.get());
+      |                                                     ~~~~~~~~~~~~~~~^~
+      |                                                                    |
+      |                                                                    std::unique_ptr<tsl::OneDnnThreadPool>::pointer {aka tsl::OneDnnThreadPool*}
+external/local_xla/xla/service/cpu/onednn_matmul.cc:148:49: note:   initializing argument 2 of ‘dnnl::stream xla::cpu::{anonymous}::MakeOneDnnStream(const dnnl::engine&, dnnl::threadpool_interop::threadpool_iface*)’
+  148 |     dnnl::threadpool_interop::threadpool_iface* thread_pool) {
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+external/local_xla/xla/service/cpu/onednn_matmul.cc: In function ‘void xla::cpu::__xla_cpu_runtime_OneDnnMatMulReorder(void*, void**)’:
+external/local_xla/xla/service/cpu/onednn_matmul.cc:322:68: error: cannot convert ‘std::unique_ptr<tsl::OneDnnThreadPool>::pointer’ {aka ‘tsl::OneDnnThreadPool*’} to ‘dnnl::threadpool_interop::threadpool_iface*’
+  322 |   auto onednn_stream = MakeOneDnnStream(cpu_engine, thread_pool.get());
+      |                                                     ~~~~~~~~~~~~~~~^~
+      |                                                                    |
+      |                                                                    std::unique_ptr<tsl::OneDnnThreadPool>::pointer {aka tsl::OneDnnThreadPool*}
+external/local_xla/xla/service/cpu/onednn_matmul.cc:148:49: note:   initializing argument 2 of ‘dnnl::stream xla::cpu::{anonymous}::MakeOneDnnStream(const dnnl::engine&, dnnl::threadpool_interop::threadpool_iface*)’
+  148 |     dnnl::threadpool_interop::threadpool_iface* thread_pool) {
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+Target //tensorflow/tools/pip_package:build_pip_package failed to build
+Use --verbose_failures to see the command lines of failed build steps.
+INFO: Elapsed time: 16142.186s, Critical Path: 328.40s
+INFO: 25824 processes: 8831 internal, 16993 local.
+FAILED: Build did NOT complete successfully
+```
+",2024-03-09T20:04:58Z,0
+Fix SegFault in Python InterpreterWrapper,"If `InterpreterWrapper::TensorSparsityParameters` encounters Tensors which do not have a `block_map`, a `nullptr` is dereferenced causing AccViol/SegFault.
+
+Add a check for `nullptr`.
+
+Attempts to fix #62058",2024-03-09T19:57:47Z,0
+Force an extra step from pred to u32 before then converting to f32 as that can fail on TGP,"Force an extra step from pred to u32 before then converting to f32 as that can fail on TGP
+",2024-03-09T19:43:15Z,0
+Build error related to XLA and absl,"### Issue type
+
+Build/Install
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+No
+
+### Source
+
+source
+
+### TensorFlow version
+
+2.16.1
+
+### Custom code
+
+No
+
+### OS platform and distribution
+
+Linux Ubuntu 22.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.11.7
+
+### Bazel version
+
+6.5.0
+
+### GCC/compiler version
+
+11.4.0
+
+### CUDA/cuDNN version
+
+11.8.0/8.9.7.29
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+When building TF from source using the Spack package manager, I see the following build failure:
+```
+ERROR: /tmp/spackkiy_sjk0/dfa266778fb055fec5b77ad2acb73759/external/local_xla/xla/service/gpu/kernels/BUILD:157:13: Compiling xla/service/gpu/kernels/topk_kernel_bfloat16.cu.cc failed: (Exit 1): crosstool_wrapper_driver_is_not_gcc failed: error executing command (from target @local_xla//xla/service/gpu/kernels:topk_kernel_cuda)
+...
+external/com_google_absl/absl/strings/internal/str_format/bind.h: In constructor ‘absl::lts_20230802::str_format_internal::FormatSpecTemplate<Args>::FormatSpecTemplate(const absl::lts_20230802::str_format_internal::ExtendedParsedFormat<absl::lts_20230802::FormatConversionCharSet(C)...>&)’:
+external/com_google_absl/absl/strings/internal/str_format/bind.h:172:1: error: parse error in template argument list
+  172 |     CheckArity<sizeof...(C), sizeof...(Args)>();
+      | ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~              
+external/com_google_absl/absl/strings/internal/str_format/bind.h:172:63: error: expected ‘;’ before ‘)’ token
+  172 |     CheckArity<sizeof...(C), sizeof...(Args)>();
+      |                                                               ^
+external/com_google_absl/absl/strings/internal/str_format/bind.h:173:147: error: template argument 1 is invalid
+  173 |     CheckMatches<C...>(absl::make_index_sequence<sizeof...(C)>{});
+      |                                                                                                                                                   ^
+external/com_google_absl/absl/strings/internal/str_format/bind.h:173:151: error: expected primary-expression before ‘{’ token
+  173 |     CheckMatches<C...>(absl::make_index_sequence<sizeof...(C)>{});
+      |                                                                                                                                                       ^
+external/com_google_absl/absl/strings/internal/str_format/bind.h:173:151: error: expected ‘;’ before ‘{’ token
+external/com_google_absl/absl/strings/internal/str_format/bind.h:173:153: error: expected primary-expression before ‘)’ token
+  173 |     CheckMatches<C...>(absl::make_index_sequence<sizeof...(C)>{});
+      |                                                                                                                                                         ^
+Target //tensorflow/tools/pip_package:build_pip_package failed to build
+INFO: Elapsed time: 1238.631s, Critical Path: 57.51s
+INFO: 17066 processes: 6004 internal, 11062 local.
+FAILED: Build did NOT complete successfully
+```
+
+### Standalone code to reproduce the issue
+
+See the below build log for steps to reproduce the issue.
+
+### Relevant log output
+
+* [build log](https://github.com/tensorflow/tensorflow/files/14547197/spack-build-out.txt)
+* [build env](https://github.com/tensorflow/tensorflow/files/14547196/spack-build-env-mods.txt)
+",2024-03-09T17:20:29Z,1
+core dumped with tf.raw_ops.FakeQuantWithMinMaxVarsPerChannel,"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+core dumped error with specific input parameters.
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+# Generate input data
+input_data = tf.constant([[1.5, 2.5, 3.5], [4.5, 5.5, 6.5]])
+
+# Define min and max values per channel
+min_per_channel = tf.constant([1.0, 2.0, 3.0])
+max_per_channel = tf.constant([2.0, 3.0, 4.0])
+
+# Invoke tf.raw_ops.FakeQuantWithMinMaxVarsPerChannel with inputs as 0-dimensional tensor and max as a 1x3 tensor
+quantized_output = tf.raw_ops.FakeQuantWithMinMaxVarsPerChannel(inputs=tf.constant(0.0), min=min_per_channel, max=max_per_channel, num_bits=8, narrow_range=False)
+
+# Print the quantized output
+print(quantized_output)
+```
+
+
+### Relevant log output
+
+```shell
+2024-03-09 15:02:07.858055: F tensorflow/core/framework/tensor_shape.cc:356] Check failed: d >= 0 (0 vs. -1)
+Aborted (core dumped)
+```
+",2024-03-09T15:03:18Z,0
+core dumped with tf.raw_ops.DrawBoundingBoxes and tf.raw_ops.DrawBoundingBoxesV2,"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+core dumped error with specific input parameters.
+
+### Standalone code to reproduce the issue
+
+1. The code of `tf.raw_ops.DrawBoundingBoxes`:
+```shell
+import tensorflow as tf
+import numpy as np
+
+# Generate input data
+batch_size = 1
+image_height = 100
+image_width = 100
+num_channels = 3
+num_boxes = 2
+
+images = np.random.rand(image_height, image_width, num_channels).astype(np.float32)  # Remove the batch dimension
+boxes = np.random.rand(batch_size, num_boxes, 4).astype(np.float32)
+
+# Invoke tf.raw_ops.DrawBoundingBoxes with a zero-dimensional tensor for images
+drawn_images = tf.raw_ops.DrawBoundingBoxes(images=tf.convert_to_tensor(images),
+                                           boxes=tf.convert_to_tensor(boxes))
+
+# Print the result
+print(drawn_images)
+```
+
+2. The code of `tf.raw_ops.DrawBoundingBoxesV2`:
+```
+import tensorflow as tf
+import numpy as np
+
+# Generate input data
+image_height = 100
+image_width = 100
+num_channels = 3
+num_boxes = 2
+
+images = tf.random.uniform((image_height, image_width, num_channels))  # Change the shape to satisfy the requirement of a zero-dimensional tensor
+boxes = tf.random.uniform((1, num_boxes, 4))
+colors = tf.constant([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]])  # Define colors for each bounding box
+
+# Invoke tf.raw_ops.DrawBoundingBoxesV2
+output_images = tf.raw_ops.DrawBoundingBoxesV2(images=images, boxes=boxes, colors=colors)
+
+# Print the output images
+print(output_images)
+```
+
+
+### Relevant log output
+
+```shell
+2024-03-09 14:55:53.834849: F tensorflow/core/framework/tensor_shape.cc:357] Check failed: d < dims() (3 vs. 3)
+Aborted (core dumped)
+```
+",2024-03-09T14:57:17Z,2
+Aborted (core dumped) with tf.raw_ops.AvgPoolGrad,"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+core dumped error with specific input parameters.
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+# Generate input data
+input_data = tf.random.normal([1, 28, 28, 3])
+grad = tf.random.normal([1, 14, 14, 6])  # Change the number of channels in grad tensor
+
+# Perform average pooling
+result = tf.nn.avg_pool2d(input_data, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID', data_format='NHWC')
+
+# Compute gradient
+grad_result = tf.raw_ops.AvgPoolGrad(orig_input_shape=tf.shape(input_data), grad=grad, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID', data_format='NHWC')
+
+print(grad_result)
+```
+
+
+### Relevant log output
+
+```shell
+free(): corrupted unsorted chunks
+Aborted (core dumped)
+```
+",2024-03-09T14:54:40Z,0
+Segmentation fault with tf.raw_ops.AudioSpectrogram,"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+Segmentation fault error with specific input parameters.
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+# Generate input data
+input_data = tf.random.normal([1, 44100], dtype=tf.float32)
+
+# Invoke tf.raw_ops.AudioSpectrogram with a negative window_size
+spectrogram = tf.raw_ops.AudioSpectrogram(input=input_data, window_size=-1024, stride=64, magnitude_squared=False)
+
+# Print the spectrogram
+print(spectrogram)
+```
+
+
+### Relevant log output
+
+```shell
+Segmentation fault (core dumped)
+```
+",2024-03-09T14:50:26Z,1
+core dumped with tf.quantization.fake_quant_with_min_max_vars_per_channel,"### Issue type
+
+Bug
+
+### Have you reproduced the bug with TensorFlow Nightly?
+
+Yes
+
+### Source
+
+binary
+
+### TensorFlow version
+
+tf 2.15
+
+### Custom code
+
+Yes
+
+### OS platform and distribution
+
+Ubuntu 20.04
+
+### Mobile device
+
+_No response_
+
+### Python version
+
+3.9
+
+### Bazel version
+
+_No response_
+
+### GCC/compiler version
+
+_No response_
+
+### CUDA/cuDNN version
+
+_No response_
+
+### GPU model and memory
+
+_No response_
+
+### Current behavior?
+
+core dumped error with specific input parameters.
+
+### Standalone code to reproduce the issue
+
+```shell
+import tensorflow as tf
+
+input_data = tf.constant(3.0)
+
+min_per_channel = tf.constant(2.0)
+max_per_channel = tf.constant(4.0)
+
+quantized_data = tf.quantization.fake_quant_with_min_max_vars_per_channel(input_data, min_per_channel, max_per_channel)
+print(quantized_data)
+```
+
+
+### Relevant log output
+
+```shell
+2024-03-09 14:43:28.826225: F tensorflow/core/framework/tensor_shape.cc:356] Check failed: d >= 0 (0 vs. -1)
+Aborted (core dumped)
+```
+",2024-03-09T14:47:46Z,0
